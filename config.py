@@ -2,13 +2,14 @@ import os
 from dotenv import load_dotenv
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint, ChatHuggingFace
 from langchain_chroma import Chroma
+from langchain_groq import ChatGroq
 
 load_dotenv()
 
 PASTA_DOCUMENTOS = "documents"
 PASTA_DB = "chroma_db"
 MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-MODELO_LLM = "Qwen/Qwen3-32B"
+MODELO_LLM = "openai/gpt-oss-120b"
 
 def obter_embeddings():
     return HuggingFaceEmbeddings(model_name=MODELO_EMBEDDINGS)
@@ -20,7 +21,7 @@ def obter_vectorstore():
         persist_directory=PASTA_DB,
     )
 
-def obter_llm():
+#def obter_llm():
     llm = HuggingFaceEndpoint(
         repo_id = MODELO_LLM,
         task="conversational",
@@ -28,4 +29,14 @@ def obter_llm():
         max_new_tokens=1024,
         huggingfacehub_api_token=os.environ.get("HUFGGINGFACEHUB_API_TOKEN"),
     )
+
+
     return ChatHuggingFace(llm=llm)
+
+
+def obter_llm():
+    return ChatGroq(
+        model=MODELO_LLM,
+        temperature=0.2,
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
