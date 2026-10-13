@@ -1,9 +1,9 @@
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from config import obter_vectorstore, obter_llm
+from langchain_core.messages import HumanMessage, AIMessage
 
-vectorstore = obter_vectorstore()
-retriever = vectorstore.as_retriever(search_kwargs={"k": 6})
+
 
 prompt = ChatPromptTemplate.from_messages ([
     ("system",
@@ -12,6 +12,7 @@ prompt = ChatPromptTemplate.from_messages ([
      "Distingue o trabalho do autor do que é citado em outros trabalhos.\n"
      "Se a resposta nao estiver no contexto, diz que nao sabes.\n\n"
      "Contexto:\n{contexto}"),
+     MessagesPlaceholder(variable_name="historico"),
      ("human", "{pergunta}"),
 
 ])
@@ -26,18 +27,32 @@ def formatar(pedacos):
         for p in pedacos
     )
 
-while True:
-    pergunta = input("\nPergunta: ")
-    if pergunta.lower() == "sair":
-        break
-    if not pergunta.strip():
-        continue
-
+def responder(pergunta, historico=None):
+    """Responde a uma pergunta com base nos documentos. Devolve: resposta, fontes."""
+    retriever = obter_vectorstore().as_retriever(search_kwargs={"k": 6})
     pedacos = retriever.invoke(pergunta)
-    resposta = chain.invoke({"contexto": formatar(pedacos), "pergunta": pergunta})
-    print("\n" + resposta)
 
-    fontes = sorted ({f"{p.metadata['fonte']} (p. {p.metadata['pagina']})" for p in pedacos})
-    print("\n Fontes:", ", ". join(fontes))
+    resposta = chain.invoke ({
+        "contexto": formatar(pedacos),
+        "historico": historico or [],
+        "pergunta": pergunta,
+    })
 
-    
+    fontes = sorted({f"{p.metadata['fonte']} (p. {p.metadata['pagina']})" for p in pedacos})
+    return resposta, fontes
+
+if __name__ == "__main__":
+    historico = []
+    while True:
+        pergunta = input ("\nPergunta: ")
+        if pergunta.lower() == "sair":  
+            break
+        if not pergunta.strip():
+            continue
+
+        resposta, fontes = responder(pergunta, historico)  
+        print("\n" + resposta)
+        print("\n Fontes", ", ". join(fontes))
+
+        historico += [HumanMessage(content=pergunta), AIMessage(content=resposta)]
+        historico = historico[-10:]

@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFaceEndpoint, ChatHuggingFace
 from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
+from functools import lru_cache
+
 
 load_dotenv()
 
@@ -11,9 +13,11 @@ PASTA_DB = "chroma_db"
 MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 MODELO_LLM = "openai/gpt-oss-120b"
 
+@lru_cache
 def obter_embeddings():
     return HuggingFaceEmbeddings(model_name=MODELO_EMBEDDINGS)
 
+@lru_cache
 def obter_vectorstore():
     return Chroma (
         collection_name="documents",

@@ -5,3 +5,4 @@ langchain-chroma
 python-dotenv
 pypdf
 sentence-transformers
+langchain-groq
