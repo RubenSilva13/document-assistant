@@ -1,4 +1,5 @@
 import os
+import re
 from pypdf import PdfReader
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -30,7 +31,7 @@ def listar_documentos():
     return sorted({m["fonte"] for m in dados ["metadatas"]})
 
 def introduzir():
-    """Precessa todos os pdfs da pasta"""
+    """Processa todos os pdfs da pasta"""
     pdfs = [f for f in os.listdir(PASTA_DOCUMENTOS) if f.lower().endswith(".pdf")]
     if not pdfs:
         print(f"Nao ha pdfs na pasta '{PASTA_DOCUMENTOS}'.")
@@ -45,17 +46,39 @@ def introduzir():
 
 
 
+
+FIM_DO_CONTEUDO = re.compile(
+     r"^\s*(References|Referências|Bibliography|Bibliografia|Acknowledge?ments|Agradecimentos)\s*$",
+     re.IGNORECASE | re.MULTILINE
+)
+
+
+
+
 def ler_pdf(caminho):
-    """LE um pdf e devolve um documento por pagina, com o nome do ficheiro e a pagina."""
+    """LE um pdf pagina a pagina, parando nas referencias/agradecimentos"""
     nome= os.path.basename(caminho)
     reader = PdfReader(caminho)
-    return [
-        Document(
-            page_content=pagina.extract_text() or "",
-            metadata={"fonte": nome, "pagina": i+1},
-        )
-        for i, pagina in enumerate(reader.pages)
-    ]
+    documentos = []
+
+    for i, pagina in enumerate(reader.pages):
+        texto = pagina.extract_text() or ""
+
+        fim = FIM_DO_CONTEUDO.search(texto)
+        if fim:
+            texto = texto[:fim.start()]
+
+        if texto.strip():
+            documentos.append(Document(
+                page_content=texto,
+                metadata={"fonte": nome, "pagina": i+1},
+            ))
+
+        if fim:
+            break
+
+    return documentos
+
 
 def ja_processado(vectorstore, nome):
     """Verifica se o ficheiro ja esta na base de dados."""

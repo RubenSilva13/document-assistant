@@ -10,12 +10,15 @@ load_dotenv()
 
 PASTA_DOCUMENTOS = "documents"
 PASTA_DB = "chroma_db"
-MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+MODELO_EMBEDDINGS = "BAAI/bge-m3"
 MODELO_LLM = "openai/gpt-oss-120b"
 
 @lru_cache
 def obter_embeddings():
-    return HuggingFaceEmbeddings(model_name=MODELO_EMBEDDINGS)
+    return HuggingFaceEmbeddings(
+        model_name=MODELO_EMBEDDINGS,
+        encode_kwargs={"normalize_embeddings": True},
+        )
 
 @lru_cache
 def obter_vectorstore():

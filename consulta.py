@@ -20,6 +20,29 @@ prompt = ChatPromptTemplate.from_messages ([
 
 chain = prompt | obter_llm() | StrOutputParser()
 
+prompt_reformular = ChatPromptTemplate.from_messages([
+    ("system",
+    "Recebes uma conversa e uma nova pergunta do utilizador.\n"
+    "Reescreve a nova pergunta para que seja autonoma e completa, "
+    "percetivel sem a conversa, substitui 'isso, 'do mesmo', 'ele', pelo que referem.\n" 
+    "Se a pergunta ja for autonoma, devolve-a igual\n"
+    "Responde apenas com a pergunta reescrita, sem explicaçoes."),
+    MessagesPlaceholder(variable_name="historico"),
+    ("human","{pergunta}"),
+])
+
+
+chain_reformular = prompt_reformular | obter_llm() | StrOutputParser()
+
+
+
+def reformular(pergunta, historico):
+    """Transforma um pergunta dependente do contexto numa pergunta autonoma."""
+    if not historico:
+        return pergunta
+    return chain_reformular.invoke({"historico": historico, "pergunta": pergunta}).strip()
+
+
 def formatar(pedacos):
     """Junta os pedaços num so texto, cada um com o ficheiro e a pagina."""
     return "\n\n".join(
@@ -28,9 +51,13 @@ def formatar(pedacos):
     )
 
 def responder(pergunta, historico=None):
-    """Responde a uma pergunta com base nos documentos. Devolve: resposta, fontes."""
+    """Responde a uma pergunta com base nos documentos. Devolve: resposta, fontes, pergunta_pesquisada"""
+    historico = historico or []
+
+    pergunta_pesquisada = reformular(pergunta, historico)
+
     retriever = obter_vectorstore().as_retriever(search_kwargs={"k": 6})
-    pedacos = retriever.invoke(pergunta)
+    pedacos = retriever.invoke(pergunta_pesquisada)
 
     resposta = chain.invoke ({
         "contexto": formatar(pedacos),
@@ -39,7 +66,7 @@ def responder(pergunta, historico=None):
     })
 
     fontes = sorted({f"{p.metadata['fonte']} (p. {p.metadata['pagina']})" for p in pedacos})
-    return resposta, fontes
+    return resposta, fontes, pergunta_pesquisada
 
 if __name__ == "__main__":
     historico = []
@@ -50,7 +77,8 @@ if __name__ == "__main__":
         if not pergunta.strip():
             continue
 
-        resposta, fontes = responder(pergunta, historico)  
+        resposta, fontes, pesquisa = responder(pergunta, historico)  
+        print(f"\n Pesquisado: {pesquisa}")
         print("\n" + resposta)
         print("\n Fontes", ", ". join(fontes))
 

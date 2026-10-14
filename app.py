@@ -44,6 +44,8 @@ with st.sidebar:
 
 for m in st.session_state.mensagens:
     with st.chat_message(m["papel"]):
+        if m.get("pesquisa"):
+            st.caption(f"Pesquisado: {m['pesquisa']}")
         st.markdown(m["texto"])
         if m.get("fontes"):
             with st.expander("Fontes"):
@@ -63,13 +65,14 @@ if pergunta:
 
     with st.chat_message("assistant"):
         with st.spinner("A pensar..."):
-            resposta, fontes = responder(pergunta, historico)
+            resposta, fontes, pesquisa = responder(pergunta, historico)
+        st.caption(f"Pesquisado: {pesquisa}")
         st.markdown(resposta)
         with st.expander("Fontes"):
             for fonte in fontes:
                 st.write("-", fonte)
 
     st.session_state.mensagens.append({"papel": "user", "texto": pergunta})
-    st.session_state.mensagens.append({"papel": "assistant", "texto": resposta, "fontes": fontes})
+    st.session_state.mensagens.append({"papel": "assistant", "texto": resposta, "fontes": fontes, "pesquisa": pesquisa})
 
     
