@@ -55,6 +55,7 @@ FIM_DO_CONTEUDO = re.compile(
 
 
 
+
 def ler_pdf(caminho):
     """LE um pdf pagina a pagina, parando nas referencias/agradecimentos"""
     nome= os.path.basename(caminho)

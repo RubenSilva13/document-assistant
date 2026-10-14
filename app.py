@@ -68,9 +68,13 @@ if pergunta:
             resposta, fontes, pesquisa = responder(pergunta, historico)
         st.caption(f"Pesquisado: {pesquisa}")
         st.markdown(resposta)
-        with st.expander("Fontes"):
-            for fonte in fontes:
-                st.write("-", fonte)
+        if fontes:
+            with st.expander("Fontes"):
+                for fonte in fontes:
+                    st.markdown(f"- {fonte}")
+        else:
+            st.caption("Sem fontes citadas.")
+        
 
     st.session_state.mensagens.append({"papel": "user", "texto": pergunta})
     st.session_state.mensagens.append({"papel": "assistant", "texto": resposta, "fontes": fontes, "pesquisa": pesquisa})

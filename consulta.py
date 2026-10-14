@@ -1,3 +1,4 @@
+import re
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
 from config import obter_vectorstore, obter_llm
@@ -8,9 +9,12 @@ from langchain_core.messages import HumanMessage, AIMessage
 prompt = ChatPromptTemplate.from_messages ([
     ("system",
      "Responde em portugues de Portugal, usando apenas o contexto abaixo.\n"
-     "Indica a fonte, ficheiro e pagina, de cada informaçao.\n"
-     "Distingue o trabalho do autor do que é citado em outros trabalhos.\n"
-     "Se a resposta nao estiver no contexto, diz que nao sabes.\n\n"
+     "Cada excerto do contexto tem um numero entre parentese retos, por exemplo [2].\n"
+     "Depois de cada informalao, cita o numero do excerto de onde a tiraste, por exemplo: "
+     "'O dispositivo usado foi o iphone 14 pro [3].'\n"
+     "Usa apenas este formato de citaçao; nao escrevas nomes de ficheiros nem paginas.\n"
+     "Distingue o trabalho do autor do que é citado de outros trabalhos.\n"
+     "Se a resposta nao estiver no contexto, diz que nao sabes e nao cites nada.\n"
      "Contexto:\n{contexto}"),
      MessagesPlaceholder(variable_name="historico"),
      ("human", "{pergunta}"),
@@ -44,10 +48,10 @@ def reformular(pergunta, historico):
 
 
 def formatar(pedacos):
-    """Junta os pedaços num so texto, cada um com o ficheiro e a pagina."""
+    """Junta os pedaços num so texto, numerados: [1], [2], ..."""
     return "\n\n".join(
-        f"[{p.metadata['fonte']}, p. {p.metadata['pagina']}]\n{p.page_content}"
-        for p in pedacos
+        f"[{i}]  ({p.metadata['fonte']}, p. {p.metadata['pagina']})\n{p.page_content}"
+        for i, p in enumerate(pedacos, start=1)
     )
 
 def responder(pergunta, historico=None):
@@ -65,7 +69,15 @@ def responder(pergunta, historico=None):
         "pergunta": pergunta,
     })
 
-    fontes = sorted({f"{p.metadata['fonte']} (p. {p.metadata['pagina']})" for p in pedacos})
+    resposta = resposta.replace("【", "[").replace("】", "]")
+
+    citados = sorted({int(n) for n in re.findall(r"\[(\d+)\]", resposta)})
+    usados = [n for n in citados if 1 <= n <= len(pedacos)]
+
+    fontes = [
+        f"[{n}] {pedacos[n-1].metadata['fonte']} (p. {pedacos[n - 1].metadata['pagina']})"
+        for n in usados
+    ]
     return resposta, fontes, pergunta_pesquisada
 
 if __name__ == "__main__":
