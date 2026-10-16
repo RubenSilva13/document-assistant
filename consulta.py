@@ -1,8 +1,8 @@
 import re
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.output_parsers import StrOutputParser
-from config import obter_vectorstore, obter_llm
 from langchain_core.messages import HumanMessage, AIMessage
+from config import obter_vectorstore, obter_llm, K_PEDACOS
 
 
 
@@ -60,7 +60,7 @@ def responder(pergunta, historico=None):
 
     pergunta_pesquisada = reformular(pergunta, historico)
 
-    retriever = obter_vectorstore().as_retriever(search_kwargs={"k": 6})
+    retriever = obter_vectorstore().as_retriever(search_kwargs={"k": K_PEDACOS})
     pedacos = retriever.invoke(pergunta_pesquisada)
 
     resposta = chain.invoke ({

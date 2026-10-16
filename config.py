@@ -12,6 +12,7 @@ PASTA_DOCUMENTOS = "documents"
 PASTA_DB = "chroma_db"
 MODELO_EMBEDDINGS = "BAAI/bge-m3"
 MODELO_LLM = "openai/gpt-oss-120b"
+K_PEDACOS = 6
 
 @lru_cache
 def obter_embeddings():

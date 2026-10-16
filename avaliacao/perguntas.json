@@ -1,0 +1,112 @@
+[
+  {
+    "pergunta": "Onde fez o Ruben Erasmus?",
+    "resposta_esperada": "Na Universidade de Split, na Croácia, entre fevereiro e julho de 2024.",
+    "fonte": "CV_Ruben_Silva_2026 (2).pdf",
+    "paginas": [1]
+  },
+  {
+    "pergunta": "Que iPhone foi usado nos testes do artigo?",
+    "resposta_esperada": "iPhone 14 Pro.",
+    "fonte": "Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas": [1, 4, 11]
+  },
+  {
+    "pergunta": "Qual foi a rentabilidade da estratégia de cripto?",
+    "resposta_esperada": "+31,41% sobre o capital exposto, um ganho de cerca de 15 562 USD.",
+    "fonte": "Relatorio-de-Performance-Estrategia-Hibrida-de-Acumulacao-Cripto-BTC-e-ETH.pdf",
+    "paginas": [6]
+  },
+  {
+    "pergunta": "Qual é o melhor ginásio da Póvoa de Lanhoso?",
+    "resposta_esperada": null,
+    "fonte": null,
+    "paginas": []
+  },
+
+  {
+    "pergunta": "Qual as Recomendaçoes sugeridas no documento sobre Crypto?",
+    "resposta_esperada": "Manutençao restrita do progama de DCA, preservaçao do caixa de oportunidade e monitorar os ciclos de alta.",
+    "fonte":"Relatorio-de-Performance-Estrategia-Hibrida-de-Acumulacao-Cripto-BTC-e-ETH.pdf",
+    "paginas": [8]
+  },
+
+  {
+    "pergunta": "Qual a visao geral sobre o documento crypto?",
+    "resposta_esperada": "O relatorio documenta a evoluçao e os resultados parciais de um portfolio de 100 000 dolares destinado á exposiçao estruturada em BTC e ETH",
+    "fonte":"Relatorio-de-Performance-Estrategia-Hibrida-de-Acumulacao-Cripto-BTC-e-ETH.pdf",
+    "paginas":[2]
+  },
+
+  {
+    "pergunta": "Qual foi a alocaçao inicial na estrategia?",
+    "resposta_esperada": " A alocaçao inicial foi de 20%, cerca de 20 000 dolares (16 000 em BTC, 4 000 em ETH)",
+    "fonte":"Relatorio-de-Performance-Estrategia-Hibrida-de-Acumulacao-Cripto-BTC-e-ETH.pdf",
+    "paginas":[3]
+  },
+
+  {
+    "pergunta": "Quais os diferentes tipos de sensores LiDAR?",
+    "resposta_esperada": "Mechanical, Flash Lidar, MEMS lidar, OPA lidar e dtof(apple).",
+    "fonte": "Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas":[2]
+  },
+
+  {
+    "pergunta": "Quais as especificaçoes tecnicas do sensor apple lidar no iphone 14 pro?",
+    "resposta_esperada": " Tecnologia: dtof, Emissor: VCSEL ( 8x8, 576 pontos), Detector: SPAD, Maximo range: 5m(indor), Frame rate: 30 fps, Depth map resolution: 256x192 px, API access: ARFrame.sceneDepth, Disponibilidade: iOS 14.0+.",
+    "fonte":"Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas":[4]
+  },
+
+  {
+    "pergunta": "Quais foram os valores na distancia 0.5m nos resultados experimentais?",
+    "resposta_esperada": "Em 0.5m, a media medida foi de 0.527m, o σreal foi de 0.0138m e com cerca de 500,736 pontos.",
+    "fonte":"Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas":[7]
+  },
+
+   {
+    "pergunta": "Quais foram os valores medidos a 1.5 m e a 2.5 m nos resultados experimentais?",
+    "resposta_esperada": "Em 1.5 m, média medida de 1.495 m, σreal de 0.1074 m e cerca de 497 215 pontos. Em 2.5 m, média medida de 2.454 m, σreal de 0.2294 m e cerca de 392 077 pontos.",
+    "fonte": "Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas": [7]
+  },
+
+  {
+    "pergunta": "Quais os dois objetos/espaços, que foram reconstruidos em nuvem de pontos?",
+    "resposta_esperada":"Uma garrafa cilindrica com cerca de 20cm de altura e um scan 360 de um quarto interior.",
+    "fonte":"Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas":[10]
+  },
+
+  {
+    "pergunta": "Que bolsa recebeu o Ruben em Eramus?",
+    "resposta_esperada": null,
+    "fonte":null,
+    "paginas":[]
+  },
+
+   {
+    "pergunta": "O ruben foi bolseiro enquanto a sua licenciatura em bragança?",
+    "resposta_esperada": null,
+    "fonte":null,
+    "paginas":[]
+  },
+
+   {
+    "pergunta": "Quais as skills tecnicas do ruben no que toca a WEB?",
+    "resposta_esperada": "HTML, CSS, REACT(Basic)",
+    "fonte":"CV_Ruben_Silva_2026 (2).pdf",
+    "paginas":[1]
+  },
+
+    {
+    "pergunta": "Qual o conceito do artigo?",
+    "resposta_esperada": "Caracterizar o sensor LiDAR do iPhone 14 Pro através de uma aplicação iOS de captura e de uma pipeline em Python que modela o ruído do sensor em função da distância.",
+    "fonte": "Paper_Lidar_ARTIIS_2026 (2).pdf",
+    "paginas": [1, 2, 11]
+  }
+
+
+]
