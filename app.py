@@ -5,8 +5,8 @@ from config import PASTA_DOCUMENTOS
 from ingestao import introduzir_ficheiro, listar_documentos
 from consulta import responder
 
-st.set_page_config(page_title = "OXIGENIUM FITNESS - DOCUMENTOS", page_icon="📄")
-st.title("📄 Assistente de documentos - OXIGENIUM FITNESS")
+st.set_page_config(page_title = "DOCUMENTOS", page_icon="📄")
+st.title("📄 Assistente de documentos")
 
 if "mensagens" not in st.session_state:
     st.session_state.mensagens = []
