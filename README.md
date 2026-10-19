@@ -3,6 +3,7 @@
 Assistente de perguntas e respostas sobre documentos PDF, com interface web, pesquisa semântica e citação de fontes. Construído com **RAG** (Retrieval-Augmented Generation): o modelo responde **apenas** com base nos documentos carregados, indica de onde tirou cada informação e diz "Não sei" quando a resposta não está lá.
 
 A qualidade do sistema é **medida** com um conjunto de teste e avaliação automática (LLM como juiz).
+📺 [Vídeo completo da demonstração (1 min)](https://www.youtube.com/watch?v=gVx7osH8wD4)
 
 ![Demonstração](Demo.gif)
 
