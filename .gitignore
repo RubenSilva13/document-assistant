@@ -1,5 +1,5 @@
 venv/
 .env
-documents/
-chroma_db/
+documents*/
+chroma_db*/
 __pycache__/
