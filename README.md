@@ -4,6 +4,8 @@ Assistente de perguntas e respostas sobre documentos PDF, com interface web, pes
 
 A qualidade do sistema é **medida** com um conjunto de teste e avaliação automática (LLM como juiz).
 
+![Demonstração](docs/demo.gif)
+
 ## Funcionalidades
 
 - **Upload de PDFs** pela interface, com processamento incremental (os ficheiros já processados não são reprocessados)
@@ -134,8 +136,16 @@ document-assistant/
 - A exclusão das referências usa uma regra simples (o título da secção sozinho numa linha), pensada para artigos científicos.
 - Perguntas ambíguas podem dar respostas incompletas (por exemplo, "valores medidos" sem especificar quais).
 
+## Considerações para produção
+
+A aplicação não está publicada online por decisão consciente. Numa versão de produção seria necessário:
+
+- **Isolar os dados entre utilizadores**: hoje há uma única base, por isso os documentos de um visitante apareceriam nas respostas de outro.
+- **Base de dados e ficheiros fora do servidor da aplicação**: o disco das plataformas de alojamento gratuitas é temporário. Uma opção seria o Supabase (PostgreSQL + pgvector + armazenamento de ficheiros).
+- **Controlo de custos**: uma app pública consome a chave da API de quem a publica (password, limites por utilizador ou "traz a tua chave").
+- **Recursos**: o modelo de embeddings bge-m3 (~2,2 GB) excede a memória dos planos gratuitos; seria preciso um modelo mais leve, avaliado com o mesmo conjunto de teste.
+
 ## Próximos passos
 
-- [ ] Deploy online
 - [ ] Ingestão de notas em Markdown (por exemplo, um vault do Obsidian)
 - [ ] Versão 100% local com Ollama, para documentos privados
