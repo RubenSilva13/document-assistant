@@ -4,7 +4,7 @@ Assistente de perguntas e respostas sobre documentos PDF, com interface web, pes
 
 A qualidade do sistema é **medida** com um conjunto de teste e avaliação automática (LLM como juiz).
 
-![Demonstração](docs/demo.gif)
+![Demonstração](docs/Demo.gif)
 
 ## Funcionalidades
 
